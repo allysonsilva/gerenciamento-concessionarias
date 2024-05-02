@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheResult="true"
+         backupGlobals="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./app/Exceptions</directory>
+        </exclude>
+    </source>
+    <coverage includeUncoveredFiles="true">
+        <report>
+            <text outputFile="php://stdout"/>
+            <clover outputFile="report/clover-coverage.xml"/>
+            <html outputDirectory="report/html-coverage"/>
+            <!-- <xml outputDirectory="report/xml-coverage"/> -->
+        </report>
+    </coverage>
+    <logging>
+        <testdoxText outputFile="php://stdout"/>
+        <!-- <testdoxHtml outputFile="logging/testdox.html"/> -->
+        <!-- @see https://marmelab.com/phpunit-d3-report/ -->
+        <!-- <junit outputFile="logging/junit.xml"/> -->
+    </logging>
+    <php>
+        <env name="APP_ENV" value="testing" force="true"/>
+    </php>
+</phpunit>

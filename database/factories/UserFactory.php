@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
+use App\Enums\UserStatus;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -26,9 +27,9 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'status' => UserStatus::ENABLE,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
         ];
     }
 
@@ -39,6 +40,18 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+            'email' => 'user_unverified@example.org',
+        ]);
+    }
+
+    /**
+     * Indicates that the user is deactivated and does not have access to the API.
+     */
+    public function disabled(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => UserStatus::DISABLE,
+            'email' => 'user_disabled@example.org',
         ]);
     }
 }

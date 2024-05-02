@@ -8,7 +8,9 @@
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "php-open-source-saver/jwt-auth": "^2.2",
+        "spatie/laravel-data": "^4.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -32,6 +34,22 @@
         }
     },
     "scripts": {
+        "populate-db": [
+            "php artisan config:clear --env=testing",
+            "php artisan config:cache --env=testing",
+            "php artisan db:wipe --force --env=testing",
+            "php artisan migrate --env=testing",
+            "php artisan db:seed --class=\"\\\\Tests\\\\Support\\\\DB\\\\PopulateDBSeeder\" --env=testing"
+        ],
+        "tests": [
+            "php artisan optimize --env=testing",
+            "@artisan-feature-tests-coverage",
+            "php artisan optimize:clear --env=testing"
+        ],
+        "artisan-tests-parallel": "php artisan test --env=testing --parallel --processes=4 --runner WrapperRunner --exclude-group slow",
+        "artisan-feature-tests-coverage": "php artisan test --env=testing --coverage --exclude-group slow --testsuite Feature",
+        "feature-tests": "php -dpcov.enabled=1 -dpcov.directory=app -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit --testsuite Feature --exclude-group slow",
+        "feature-tests-parallel": "./vendor/bin/paratest --processes 4 --runner WrapperRunner --testsuite Feature --exclude-group slow --colors --parallel-suite --passthru=\"-d pcov.enabled=1 -d pcov.directory=app -dpcov.exclude=\"~vendor~\"\"",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

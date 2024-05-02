@@ -1,0 +1,11 @@
+{
+    "data": {
+        "*": [
+            "id",
+            "name",
+            "symbol",
+            "cnpj",
+            "created_at"
+        ]
+    }
+}
