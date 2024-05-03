@@ -4,8 +4,12 @@ namespace Tests;
 
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
+use App\Http\Middleware\JwtAuthenticate;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
+use Illuminate\Auth\Middleware\Authorize as AuthorizeMiddleware;
 
 abstract class FeatureTestCase extends TestCase
 {
@@ -33,6 +37,18 @@ abstract class FeatureTestCase extends TestCase
     protected function userAuth(): User
     {
         return User::where('email', static::EMAIL_USER_0)->firstOrFail();
+    }
+
+    protected function withoutMiddlewareDependencies(): static
+    {
+        $this->withoutMiddleware([
+            JwtAuthenticate::class,
+            AuthorizeMiddleware::class,
+            ThrottleRequests::class,
+            ThrottleRequestsWithRedis::class
+        ]);
+
+        return $this;
     }
 
     protected static function featureStructure(string $filename): mixed

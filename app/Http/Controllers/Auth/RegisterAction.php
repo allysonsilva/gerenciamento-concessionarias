@@ -41,6 +41,6 @@ class RegisterAction extends BaseController
             report($e);
         }
 
-        return $this->respond(__('messages.error when registering user'));
+        return $this->respond(__('messages.error when registering user'), HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

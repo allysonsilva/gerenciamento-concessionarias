@@ -49,8 +49,13 @@ class Concessionaria extends Model
     protected function cnpj(): Attribute
     {
         return new Attribute(
-            get: function (string $value, array $attributes) {
+            get: function (?string $value, array $attributes) {
+                if (is_null($value)) return null;
+
                 return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $value);
+            },
+            set: function (string $value, array $attributes) {
+                return sanitize_cnpj($value);
             },
         );
     }

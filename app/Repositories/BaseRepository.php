@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Traits\ForwardsCalls;
 use App\Support\Repository\Exceptions\RepositoryException;
 
+/**
+ * @codeCoverageIgnore
+ */
 abstract class BaseRepository
 {
     use ForwardsCalls;

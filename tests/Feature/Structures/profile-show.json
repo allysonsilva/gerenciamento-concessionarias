@@ -1,0 +1,10 @@
+{
+    "user": [
+        "id",
+        "name",
+        "email",
+        "has_email_verified",
+        "is_enabled",
+        "created_at"
+    ]
+}

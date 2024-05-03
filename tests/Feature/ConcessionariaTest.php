@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use Tests\FeatureTestCase;
 use App\Models\Concessionaria;
 use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\Attributes\Group;
-use App\Http\Middleware\JwtAuthenticate;
 use PHPUnit\Framework\Attributes\TestDox;
-use Illuminate\Auth\Middleware\Authorize as AuthorizeMiddleware;
+use App\Http\Resources\ConcessionariaResource;
 
 #[Group('Feature')]
 class ConcessionariaTest extends FeatureTestCase
@@ -22,7 +22,7 @@ class ConcessionariaTest extends FeatureTestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware([JwtAuthenticate::class, AuthorizeMiddleware::class]);
+        $this->withoutMiddlewareDependencies();
     }
 
     #[Test]
@@ -31,15 +31,6 @@ class ConcessionariaTest extends FeatureTestCase
     {
         // Arrange
         $structure = static::featureStructure('concessionarias-index');
-
-        // foreach (range(1, 10) as $index) {
-        //     $payload = Concessionaria::factory()->make()->toArray();
-
-        //     $this->actingAs($this->userAuth())
-        //          ->withoutExceptionHandling()
-        //          ->postJson(route('api.verified.concessionarias.store'), $payload)
-        //          ->assertCreated();
-        // }
 
         // Act
         $this->actingAs($this->userAuth())
@@ -68,11 +59,63 @@ class ConcessionariaTest extends FeatureTestCase
         // Act
         $response = $this->actingAs($this->userAuth())
                          ->withoutExceptionHandling()
-                         ->getJson(route('api.verified.concessionarias.show', [
-                            'concessionaria' => $resourceCreated->getKey(),
-                         ]));
+                         ->getJson(route('api.verified.concessionarias.show', $resourceCreated->getKey()));
 
+        // Assert
         $response->assertOk()
                  ->assertJsonStructure(['data' => $structure['data']['*']]);
+    }
+
+    #[Test]
+    #[TestDox('Deve ser possível atualizar os dados de uma concessionária')]
+    public function it_update_concessionaria(): void
+    {
+        // Arrange
+        $response = $this->actingAs($this->userAuth())
+                         ->withoutExceptionHandling()
+                         ->postJson(route('api.verified.concessionarias.store'), Concessionaria::factory()->make()->toArray())
+                         ->assertCreated();
+
+        /** @var \App\Models\Concessionaria */
+        $resourceCreated = $response->getOriginalContent();
+
+        $newData = Concessionaria::factory()->make()->toArray();
+
+        $resourceUpdated = tap(clone $resourceCreated, fn (Model $resource) => $resource->fill($newData));
+
+        // Act
+        $response = $this->actingAs($this->userAuth())
+                         ->withoutExceptionHandling()
+                         ->putJson(route('api.verified.concessionarias.update', $resourceCreated->getKey()), $newData);
+
+        // Assert
+        $response->assertOk()
+                 ->assertResource(new ConcessionariaResource($resourceUpdated));
+    }
+
+    #[Test]
+    #[TestDox('Deve ser remover uma concessionária')]
+    public function it_destroy_concessionaria(): void
+    {
+        // $this->withoutExceptionHandling();
+
+        // Arrange
+        $response = $this->actingAs($this->userAuth())
+                         ->postJson(route('api.verified.concessionarias.store'), Concessionaria::factory()->make()->toArray())
+                         ->assertCreated();
+
+        /** @var \App\Models\Concessionaria */
+        $resourceCreated = $response->getOriginalContent();
+
+        // Act
+        $response = $this->actingAs($this->userAuth())
+                         ->deleteJson(route('api.verified.concessionarias.destroy', $resourceCreated->getKey()));
+
+        // Assert
+        $response->assertNoContent();
+
+        $this->actingAs($this->userAuth())
+             ->getJson(route('api.verified.concessionarias.show', $resourceCreated->getKey()))
+             ->assertNotFound();
     }
 }

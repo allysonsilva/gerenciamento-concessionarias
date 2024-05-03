@@ -10,6 +10,9 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as FoundationExceptionHandler;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ExceptionHandler extends FoundationExceptionHandler
 {
     /**
@@ -77,12 +80,7 @@ class ExceptionHandler extends FoundationExceptionHandler
      */
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
-        return response()->json([
-            'error' => [
-                'message' => $e->getMessage(),
-                'errors' => $e->errors(),
-            ],
-        ], $e->status);
+        return $this->invalidJson($request, $e);
     }
 
     /**

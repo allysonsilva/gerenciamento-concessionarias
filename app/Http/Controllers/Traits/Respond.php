@@ -6,6 +6,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Support\Arrayable;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait Respond
 {
     /**

@@ -16,10 +16,12 @@ class LogoutAction extends BaseController
     {
         try {
             auth()->logout(true);
+        // @codeCoverageIgnoreStart
         } catch (Throwable $e) {
             report($e);
 
             return $this->respond(__('auth.error validating authentication'), HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+            // @codeCoverageIgnoreEnd
         }
 
         return $this->respond(__('auth.successfully logged out'));

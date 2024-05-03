@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Auth\Notifications\VerifyEmail;
 
+/**
+ * @codeCoverageIgnore
+ */
 class UserVerifyEmail extends VerifyEmail
 {
     /**

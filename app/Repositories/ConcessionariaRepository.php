@@ -15,7 +15,7 @@ final class ConcessionariaRepository extends BaseRepository
 
     public function index(SearchData $data): Paginator
     {
-        $query = $this->entity->query();
+        $query = $this->entity->query()->with('user');
 
         if (! empty($search = $data->search)) {
             $query->searcheable($search);

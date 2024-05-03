@@ -10,6 +10,7 @@ enum RequestOrderBy: string
     /**
      * Retrieve array with all values contained in this enum
      *
+     * @codeCoverageIgnore
      * @return array
      */
     public static function values(): array

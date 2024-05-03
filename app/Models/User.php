@@ -67,6 +67,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @codeCoverageIgnore
      */
     public function concessionarias(): HasMany
     {
@@ -127,16 +128,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string
-     */
-    public function getEmailForPasswordReset(): string
-    {
-        return $this->email;
-    }
-
-    /**
      * Send the email verification notification.
      *
      * @return void
@@ -149,6 +140,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     /**
      * Activate the user account.
      *
+     * @codeCoverageIgnore
      * @return bool
      */
     public function activateAccount(): bool

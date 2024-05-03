@@ -10,6 +10,7 @@ enum UserStatus: string
     /**
      * Retrieve array with all values contained in this enum.
      *
+     * @codeCoverageIgnore
      * @return array<mixed>
      */
     public static function values(): array

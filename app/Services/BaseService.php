@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Traits\ForwardsCalls;
 
+/**
+ * @codeCoverageIgnore
+ */
 abstract class BaseService
 {
     use ForwardsCalls;

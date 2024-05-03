@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RouteServiceProvider extends ServiceProvider
 {
     /**

@@ -1,0 +1,16 @@
+{
+    "0": "access_token",
+    "1": "token_type",
+    "2": "created_at",
+    "3": "not_before_at",
+    "4": "expires_at",
+    "user": [
+        "id",
+        "name",
+        "email",
+        "has_email_verified",
+        "is_enabled",
+        "created_at"
+    ],
+    "data": []
+}

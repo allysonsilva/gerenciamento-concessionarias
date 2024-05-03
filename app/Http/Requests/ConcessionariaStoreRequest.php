@@ -9,6 +9,14 @@ use Illuminate\Foundation\Http\FormRequest;
 class ConcessionariaStoreRequest extends FormRequest
 {
     /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return auth()->check();
+    }
+
+    /**
      * Prepare the data for validation.
      *
      * @return void
@@ -16,9 +24,7 @@ class ConcessionariaStoreRequest extends FormRequest
     protected function prepareForValidation()
     {
         if ($this->filled('cnpj')) {
-            $cnpjOnlyNumbers = filter_var(str_replace(array('.','-','/'), '', trim($this->input('cnpj'))), FILTER_SANITIZE_NUMBER_INT);
-
-            $this->merge(['cnpj' => $cnpjOnlyNumbers]);
+            $this->merge(['cnpj' => sanitize_cnpj($this->input('cnpj'))]);
         }
     }
 

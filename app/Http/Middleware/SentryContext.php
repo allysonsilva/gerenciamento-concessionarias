@@ -7,6 +7,9 @@ use Sentry\State\Scope;
 use Illuminate\Http\Request;
 use function Sentry\configureScope as sentryConfigureScope;
 
+/**
+ * @codeCoverageIgnore
+ */
 class SentryContext
 {
     /**

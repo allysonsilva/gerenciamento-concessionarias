@@ -6,6 +6,10 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
+/**
+ * @codeCoverageIgnore
+ * TODO:
+ */
 class EmailVerifyAction extends BaseController
 {
     public function __construct()

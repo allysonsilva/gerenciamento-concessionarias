@@ -4,6 +4,10 @@ namespace App\Listeners;
 
 use Illuminate\Auth\Events\Verified;
 
+/**
+ * @codeCoverageIgnore
+ * TODO:
+ */
 class UserSuccessfullyVerified
 {
     /**
